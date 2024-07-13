@@ -1,0 +1,60 @@
+import styled from '@emotion/styled'
+import { Typography } from '@mui/joy'
+import { NamedAPIResource, Pokemon } from 'pokenode-ts'
+import { capitalize, getImageFromSprites } from '../../utils'
+import { useQuery } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
+import { pokemonClient } from '../../api';
+import PokemonImage from '../PokemonImage'
+
+const Card = styled(Link)({
+  minHeight: '14rem',
+  cursor: 'pointer',
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-evenly',
+  overflow: 'hidden',
+  borderRadius: '1rem',
+  padding: '1rem',
+  textAlign: 'center',
+  border: '2px solid var(--border)',
+  textDecoration: 'none',
+  transition: 'box-shadow 0.15s, border-color 0.15s',
+  height: '100%',
+  boxSizing: 'border-box',
+  '&:hover': {
+    boxShadow: '0 0 1rem 0.25rem var(--gull-gray)',
+    borderColor: 'var(--gull-gray)',
+  },
+})
+
+const TextContainer = styled.div({
+  zIndex: 2,
+})
+
+const PokemonListItem = ({ pokemon }: { pokemon: NamedAPIResource }) => {
+  const { data } = useQuery<Pokemon>({
+    queryKey: ['pokemon', 'item', pokemon.name],
+    queryFn: async () => await pokemonClient.getPokemonByName(pokemon.name)
+  })
+
+  if (!data) {
+    return null
+  }
+
+  const name = capitalize(data.name)
+  const idPad = String(data.id).padStart(3, '0')
+
+  return (
+    <Card to={`/pokemon/${data.name}`}>
+      <PokemonImage name={name} src={getImageFromSprites(data.sprites)} />
+      <TextContainer>
+        <Typography level="title-lg">{name}</Typography>
+        <Typography level="body-md">{idPad}</Typography>
+      </TextContainer>
+    </Card>
+  )
+}
+
+export default PokemonListItem

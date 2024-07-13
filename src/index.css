@@ -1,8 +1,31 @@
+:root {
+  --valhalla: #252544;
+  --dolphin: #666880;
+  --solitude: #E5EFF1;
+  --mulled-wine: #494967;
+  --black-squeeze: #F1F9F9;
+  --gull-gray: #9FA7B6;
+
+  --text-primary: var(--valhalla);
+  --text-secondary: var(--dolphin);
+  --placeholder: var(--gull-gray);
+  --input: var(--solitude);
+  --main-background: var(--black-squeeze);
+  --focus-visible: var(--mulled-wine);
+  --border: var(var(--black-squeeze));
+
+  --Input-placeholderColor: var(--placeholder);
+  --Input-background: var(--input);
+  --Input-color: var(--text-primary);
+  --Input-focusedHighlight: var(--focus-visible);
+  --joy-fontFamily-body: 'Poppins', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background: var(--main-background);
+  color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

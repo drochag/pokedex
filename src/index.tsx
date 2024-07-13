@@ -1,15 +1,59 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/700.css';
+import Root from './routes/root';
+import { CssVarsProvider } from '@mui/joy/styles';
+import { extendTheme } from '@mui/joy/styles';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Container } from '@mui/joy';
+import Pokemon from './routes/pokemon';
+
+const theme = extendTheme({
+  colorSchemes: {
+    dark: {
+      palette: {
+        background: {
+          body: 'var(--main-background)',
+        },
+        focusVisible: 'var(--focus-visible)',
+      },
+    },
+  },
+});
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+  },
+  {
+    path: "pokemon/:name",
+    element: <Pokemon />,
+  },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+export const queryClient = new QueryClient()
+
 root.render(
   <React.StrictMode>
-    <App />
+    <CssVarsProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Container>
+          <RouterProvider router={router} />
+        </Container>
+      </QueryClientProvider>
+    </CssVarsProvider>
   </React.StrictMode>
 );
 
