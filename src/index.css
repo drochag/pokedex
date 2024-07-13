@@ -10,15 +10,33 @@
   --text-secondary: var(--dolphin);
   --placeholder: var(--gull-gray);
   --input: var(--solitude);
-  --main-background: var(--black-squeeze);
-  --focus-visible: var(--mulled-wine);
+  --main-color: var(lack-squeeze);
+  --focus-visible: var(-/ 0.4);
   --border: var(var(--black-squeeze));
 
   --Input-placeholderColor: var(--placeholder);
-  --Input-background: var(--input);
-  --Input-color: var(--text-primary);
+  --Input-color: var(nput);
+  --Input-color: var(--/ 0.4);
   --Input-focusedHighlight: var(--focus-visible);
-  --joy-fontFamily-body: 'Poppins', sans-serif;
+
+  --type-normal: #A8A77A;
+  --type-fire: #EE8130;
+  --type-water: #6390F0;
+  --type-electric: #F7D02C;
+  --type-grass: #7AC74C;
+  --type-ice: #96D9D6;
+  --type-fighting: #C22E28;
+  --type-poison: #A33EA1;
+  --type-ground: #E2BF65;
+  --type-flying: #A98FF3;
+  --type-psychic: #F95587;
+  --type-bug: #A6B91A;
+  --type-rock: #B6A136;
+  --type-ghost: #735797;
+  --type-dark: #705746;
+  --type-dragon: #6F35FC;
+  --type-steel: #B7B7CE;
+  --type-fairy: #D685AD;
 }
 
 body {

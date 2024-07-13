@@ -10,6 +10,7 @@ import { FC, PropsWithChildren } from "react";
 export interface PokemonProps {
   pokemon: PokemonType;
   isLoading?: boolean;
+  types?: JSX.Element | JSX.Element[] | null;
 }
 
 const ImageContainer = styled.div({
@@ -55,7 +56,7 @@ const StyledSkeleton = styled(Skeleton)({
   height: '100%',
 })
 
-const PokemonDetail: FC<PropsWithChildren<PokemonProps>> = ({ pokemon, isLoading, children }) => {
+const PokemonDetail: FC<PropsWithChildren<PokemonProps>> = ({ pokemon, isLoading, children, types }) => {
   return (
     <Container maxWidth="xl" sx={{ textAlign: 'center', pt: 5 }}>
       <Name>
@@ -66,6 +67,7 @@ const PokemonDetail: FC<PropsWithChildren<PokemonProps>> = ({ pokemon, isLoading
       <ImageContainer>
         {!isLoading && <PokemonImage size="large" src={getImageFromSprites(pokemon.sprites)} name={pokemon.name} />}
         {isLoading && <StyledSkeleton variant="rectangular" animation="wave" width="3rem" height="3rem" />}
+        {types}
       </ImageContainer>
       {children}
     </Container>
