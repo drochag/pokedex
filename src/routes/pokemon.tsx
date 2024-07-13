@@ -7,6 +7,7 @@ import EvolutionChain from "../components/EvolutionChain";
 import styled from "@emotion/styled";
 import { Skeleton } from "@mui/joy";
 import TypeBullet from "../components/TypeBullet";
+import FavoriteButton from "../components/FavoriteButton";
 
 const StyledSkeleton = styled(Skeleton)({
   width: '2rem',
@@ -66,6 +67,9 @@ const Pokemon = () => {
     <PokemonDetail
       pokemon={pokemon}
       isLoading={isLoadingPokemon}
+      favoriteButton={(
+        <FavoriteButton name={pokemon.name} />
+      )}
       types={(
         <TypeBulletsContainer>
           {isLoadingForm ? <StyledSkeleton variant="text" /> : (

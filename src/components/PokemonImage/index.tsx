@@ -3,6 +3,7 @@ import { pokemonClient } from "../../api"
 import { useQuery } from "@tanstack/react-query"
 import { Pokemon } from "pokenode-ts"
 import { getImageFromSprites } from "../../utils"
+import { PropsWithChildren } from "react"
 
 const ImageContainer = styled.div({
   display: 'flex',
@@ -39,7 +40,7 @@ export type PokemonImageProps = {
   className?: string
 }
 
-const PokemonImage = ({ name, src, size = 'normal', style = {}, className }: PokemonImageProps) => {
+const PokemonImage = ({ name, src, size = 'normal', style = {}, className, children }: PropsWithChildren<PokemonImageProps>) => {
   const { data: pokemon, isLoading } = useQuery<Pokemon>({
     queryKey: ['pokemon', 'item', name],
     queryFn: async () => await pokemonClient.getPokemonByName(name.toLocaleLowerCase()),
@@ -52,6 +53,7 @@ const PokemonImage = ({ name, src, size = 'normal', style = {}, className }: Pok
 
   return (
     <ImageContainer style={style} className={className}>
+      {children}
       <BgImage src={src || getImageFromSprites(pokemon!.sprites)} />
       <Image src={src || getImageFromSprites(pokemon!.sprites)} alt={name} size={size} />
     </ImageContainer>

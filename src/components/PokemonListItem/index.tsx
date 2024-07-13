@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { pokemonClient } from '../../api';
 import PokemonImage from '../PokemonImage'
+import FavoriteButton from '../FavoriteButton'
 
 const Card = styled(Link)({
   minHeight: '14rem',
@@ -18,14 +19,12 @@ const Card = styled(Link)({
   borderRadius: '1rem',
   padding: '1rem',
   textAlign: 'center',
-  border: '2px solid var(--border)',
   textDecoration: 'none',
-  transition: 'box-shadow 0.15s, border-color 0.15s',
+  transition: 'box-shadow 0.1s',
   height: '100%',
   boxSizing: 'border-box',
   '&:hover': {
-    boxShadow: '0 0 1rem 0.25rem var(--gull-gray)',
-    borderColor: 'var(--gull-gray)',
+    boxShadow: '0 0 0.5rem 0.25rem var(--gull-gray)',
   },
 })
 
@@ -48,7 +47,9 @@ const PokemonListItem = ({ pokemon }: { pokemon: NamedAPIResource }) => {
 
   return (
     <Card to={`/pokemon/${data.name}`}>
-      <PokemonImage name={name} src={getImageFromSprites(data.sprites)} />
+      <PokemonImage name={name} src={getImageFromSprites(data.sprites)}>
+        <FavoriteButton name={data.name} />
+      </PokemonImage>
       <TextContainer>
         <Typography level="title-lg">{name}</Typography>
         <Typography level="body-md">{idPad}</Typography>

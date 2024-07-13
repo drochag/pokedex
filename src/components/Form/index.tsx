@@ -1,4 +1,4 @@
-import { PiSlidersHorizontal } from "react-icons/pi"
+import { SlidersHorizontal } from "@phosphor-icons/react"
 import { StyledForm, InputContainer, StyledButton, StyledInput } from "./styled"
 
 const Form = () => {
@@ -8,7 +8,7 @@ const Form = () => {
         <StyledInput variant="soft" placeholder="Name or Number" />
       </InputContainer>
       <StyledButton variant="soft" color="primary">
-        <PiSlidersHorizontal size={32} />
+        <SlidersHorizontal size={32} />
       </StyledButton>
     </StyledForm>
   )
