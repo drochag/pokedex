@@ -10,15 +10,18 @@ interface RootContext {
   setCurrentPage?: (page: number) => void;
   pages?: number;
   setPages?: (pages: number) => void;
+  onlyFavorites?: boolean;
+  setOnlyFavorites?: (onlyFavorites: boolean) => void;
 }
 export const RootContext = createContext<RootContext>({ currentPage: 0 });
 
 function Root() {
   const [currentPage, setCurrentPage] = useState(0);
   const [pages, setPages] = useState(0);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
 
   return (
-    <RootContext.Provider value={{ currentPage, setCurrentPage, pages, setPages }}>
+    <RootContext.Provider value={{ currentPage, setCurrentPage, pages, setPages, onlyFavorites, setOnlyFavorites }}>
       <Container sx={{ mt: 5 }}>
         <header>
           <Grid container spacing={2}>

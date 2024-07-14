@@ -10,14 +10,14 @@
   --text-secondary: var(--dolphin);
   --placeholder: var(--gull-gray);
   --input: var(--solitude);
-  --main-color: var(lack-squeeze);
-  --focus-visible: var(-/ 0.4);
+  --main-color: var(--black-squeeze);
+  --focus-visible: var(--mulled-wine);
   --border: var(var(--black-squeeze));
 
   --Input-placeholderColor: var(--placeholder);
-  --Input-color: var(nput);
-  --Input-color: var(--/ 0.4);
+  --Input-color: var(--text-primary);
   --Input-focusedHighlight: var(--focus-visible);
+  --variant-softHoverBg: var(--dolphin);
 
   --type-normal: #A8A77A;
   --type-fire: #EE8130;

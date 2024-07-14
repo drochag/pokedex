@@ -32,7 +32,7 @@ const TextContainer = styled.div({
   zIndex: 2,
 })
 
-const PokemonListItem = ({ pokemon }: { pokemon: NamedAPIResource }) => {
+const PokemonListItem = ({ pokemon }: { pokemon: NamedAPIResource | { name: string } }) => {
   const { data } = useQuery<Pokemon>({
     queryKey: ['pokemon', 'item', pokemon.name],
     queryFn: async () => await pokemonClient.getPokemonByName(pokemon.name)
