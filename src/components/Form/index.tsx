@@ -1,10 +1,9 @@
 import { Star } from "@phosphor-icons/react"
 import { StyledForm, InputContainer, StyledButton, StyledInput } from "./styled"
-import { RootContext } from "../../routes/root"
-import { useContext } from "react"
+import { useList } from "../../utils/stores"
 
 const Form = () => {
-  const { onlyFavorites, setOnlyFavorites } = useContext(RootContext)
+  const { onlyFavorites, setOnlyFavorites } = useList()
   return (
     <StyledForm>
       <InputContainer>

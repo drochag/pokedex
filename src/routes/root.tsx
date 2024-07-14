@@ -1,42 +1,26 @@
 import Grid from '@mui/joy/Grid';
-import { createContext, useState } from 'react';
 
 import List from '../components/List';
 import Form from '../components/Form';
 import { Container } from '@mui/joy';
-
-interface RootContext {
-  currentPage: number;
-  setCurrentPage?: (page: number) => void;
-  pages?: number;
-  setPages?: (pages: number) => void;
-  onlyFavorites?: boolean;
-  setOnlyFavorites?: (onlyFavorites: boolean) => void;
-}
-export const RootContext = createContext<RootContext>({ currentPage: 0 });
+import { create } from 'zustand'
 
 function Root() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [pages, setPages] = useState(0);
-  const [onlyFavorites, setOnlyFavorites] = useState(false);
-
   return (
-    <RootContext.Provider value={{ currentPage, setCurrentPage, pages, setPages, onlyFavorites, setOnlyFavorites }}>
-      <Container sx={{ mt: 5 }}>
-        <header>
-          <Grid container spacing={2}>
-            <Grid xs={12}>
-              <h1>Pokédex</h1>
-              <p>Search for Pokémon by name or using the National Pokédex number.</p>
-              <Form />
-            </Grid>
-            <Grid xs={12}>
-              <List />
-            </Grid>
+    <Container sx={{ mt: 5 }}>
+      <header>
+        <Grid container spacing={2}>
+          <Grid xs={12}>
+            <h1>Pokédex</h1>
+            <p>Search for Pokémon by name or using the National Pokédex number.</p>
+            <Form />
           </Grid>
-        </header>
-      </Container>
-    </RootContext.Provider>
+          <Grid xs={12}>
+            <List />
+          </Grid>
+        </Grid>
+      </header>
+    </Container>
   );
 }
 

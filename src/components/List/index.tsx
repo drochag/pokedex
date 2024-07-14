@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
-import { RootContext } from "../../routes/root"
-import { useContext } from "react"
 import { Grid } from "@mui/joy"
 import PokemonListItem from "../PokemonListItem"
 import { pokemonClient } from "../../api"
 import { NamedAPIResource } from "pokenode-ts"
-import { useFavoritePokemon } from "../../utils"
+import { useFavoritePokemon, useList } from "../../utils/stores"
 
 const List = () => {
-  const { currentPage, setCurrentPage, setPages, onlyFavorites } = useContext(RootContext)
+  const { currentPage, setCurrentPage, setPages, onlyFavorites } = useList()
   const { favoritePokemon } = useFavoritePokemon()
   const { data } = useQuery({
     queryKey: ['pokemon', 'list', currentPage],

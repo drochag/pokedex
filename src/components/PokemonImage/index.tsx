@@ -12,14 +12,13 @@ const ImageContainer = styled.div({
 })
 
 const BgImage = styled.div<{ src: string }>(props => ({
-  background: Array(2).fill(`url(${props.src})`).join(', '),
+  background: `url(${props.src})`,
   backgroundSize: 'cover',
-  filter: 'blur(60px)',
+  filter: 'blur(50px)',
   transform: 'scale(2)',
   position: 'absolute',
   inset: 0,
-  backgroundPosition: '25% 25%, 75% 75%',
-  backgroundRepeat: 'space',
+  backgroundPosition: 'center',
   zIndex: -1,
   opacity: 0.6
 }))
@@ -51,11 +50,13 @@ const PokemonImage = ({ name, src, size = 'normal', style = {}, className, child
     return null
   }
 
+  const image = src || getImageFromSprites(pokemon!.sprites)
+
   return (
     <ImageContainer style={style} className={className}>
       {children}
-      <BgImage src={src || getImageFromSprites(pokemon!.sprites)} />
-      <Image src={src || getImageFromSprites(pokemon!.sprites)} alt={name} size={size} />
+      <BgImage src={image} />
+      <Image src={image} alt={name} size={size} />
     </ImageContainer>
   )
 }

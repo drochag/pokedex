@@ -12,6 +12,7 @@
   --input: var(--solitude);
   --main-color: var(--black-squeeze);
   --focus-visible: var(--mulled-wine);
+  --main-background: var(--solitude);
   --border: var(var(--black-squeeze));
 
   --Input-placeholderColor: var(--placeholder);

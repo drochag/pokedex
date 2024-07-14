@@ -20,11 +20,12 @@ const Card = styled(Link)({
   padding: '1rem',
   textAlign: 'center',
   textDecoration: 'none',
-  transition: 'box-shadow 0.1s',
   height: '100%',
   boxSizing: 'border-box',
+  border: '2px solid var(--main-background)',
+  color: 'var(--text-primary)',
   '&:hover': {
-    boxShadow: '0 0 0.5rem 0.25rem var(--gull-gray)',
+    border: '2px solid var(--gull-gray)',
   },
 })
 
