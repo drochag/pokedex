@@ -34,7 +34,7 @@ export const EvolutionChainContainer = styled.div<{ evolutions: number }>(props 
 }))
 
 export const EvolutionChainOuterContainer = styled.div({
-  padding: '1rem',
+  padding: '1rem 0',
   maxWidth: '30rem',
   overflow: 'auto',
   margin: '0 auto',
@@ -104,18 +104,20 @@ const EvolutionChain = ({ evolutionChain, refName, isLoading }: EvolutionChainPr
   const chain = flattenChain(evolutionChain.chain)
 
   return (
-    <EvolutionChainOuterContainer>
-      <Typography level="h3" component="h2" sx={{ textAlign: 'left', marginBottom: 3 }}>Evolution Chain</Typography>
-      <EvolutionChainContainer evolutions={chain.length + 1}>
-        {chain.map(pokemon => (
-          <EvolutionImageWithInfo
-            key={pokemon.name}
-            id={parseInt(pokemon.url.split(/\/pokemon-species\//)[1].replace(/\//g, ''))}
-            name={pokemon.name}
-            isCurrent={pokemon.name === refName} />
-        ))}
-      </EvolutionChainContainer>
-    </EvolutionChainOuterContainer>
+    <>
+      <Typography level="h3" component="h2" sx={{ textAlign: 'left', marginTop: 3 }}>Evolution Chain</Typography>
+      <EvolutionChainOuterContainer>
+        <EvolutionChainContainer evolutions={chain.length + 1}>
+          {chain.map(pokemon => (
+            <EvolutionImageWithInfo
+              key={pokemon.name}
+              id={parseInt(pokemon.url.split(/\/pokemon-species\//)[1].replace(/\//g, ''))}
+              name={pokemon.name}
+              isCurrent={pokemon.name === refName} />
+          ))}
+        </EvolutionChainContainer>
+      </EvolutionChainOuterContainer>
+    </>
   )
 }
 
