@@ -1,30 +1,22 @@
-import { useQuery } from "@tanstack/react-query"
 import { Grid, Typography } from "@mui/joy"
 import PokemonListItem from "../PokemonListItem"
-import { pokemonClient } from "../../api"
 import { NamedAPIResource } from "pokenode-ts"
 import Pagination from '../Pagination'
 import { useFavoritePokemon, useList } from "../../utils/stores"
+import { useApiList } from "../../utils/hooks"
 
 const List = () => {
   const { currentPage, pages, setPages, onlyFavorites, setIsRefetching } = useList()
   const { favoritePokemon } = useFavoritePokemon()
-  const { data, isRefetching } = useQuery({
-    queryKey: ['pokemon', 'list', currentPage],
-    queryFn: async () => {
-      const response = await pokemonClient.listPokemons((currentPage - 1) * 20, 20)
-      setPages(Math.ceil(response.count / 20))
-      return response
-    },
-  })
+  const { data, isRefetching } = useApiList({ currentPage, setPages })
 
   return <Grid container spacing={2} my={2}>
     <Grid xs={12}>
       <Typography level="h4">
-        {currentPage} / {pages}
+        {!onlyFavorites && <>{currentPage} / {pages}</>}{onlyFavorites && favoritePokemon.length} {onlyFavorites ? 'Favorites' : 'Pages'}
       </Typography>
     </Grid>
-    <Pagination isRefetching={isRefetching} />
+    {!onlyFavorites && <Pagination isRefetching={isRefetching} />}
     {!onlyFavorites && data?.results.map(({ url }: NamedAPIResource) => {
       const pokemonId = parseInt(url.split(/\/pokemon\//)[1].replace(/\//g, ''))
       return (

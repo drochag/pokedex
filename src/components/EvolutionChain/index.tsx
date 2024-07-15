@@ -2,7 +2,7 @@ import styled from "@emotion/styled"
 import { ChainLink, EvolutionChain as EvolutionChainType, NamedAPIResource } from "pokenode-ts"
 import PokemonImage from "../PokemonImage"
 import { Link } from "react-router-dom"
-import { Skeleton } from "@mui/joy"
+import { Skeleton, Typography } from "@mui/joy"
 import { getImageFromSprites } from "../../utils"
 import { usePokemonAndSpecies } from "../../utils/hooks"
 
@@ -15,7 +15,7 @@ const flattenChain = (chain: ChainLink): NamedAPIResource[] => {
   return result
 }
 
-const EvolutionImageContainer = styled(Link)((props) => ({
+export const EvolutionImageContainer = styled(Link)((props) => ({
   display: 'inline-flex',
   height: '5rem',
   width: '5rem',
@@ -28,7 +28,7 @@ const EvolutionImageContainer = styled(Link)((props) => ({
   border: `2px solid rgb(from ${props.color} r g b / 30%)`,
 }))
 
-const EvolutionChainContainer = styled.div<{ evolutions: number }>(props => ({
+export const EvolutionChainContainer = styled.div<{ evolutions: number }>(props => ({
   width: `${props.evolutions * 6.5}rem`,
   textAlign: 'left',
 }))
@@ -46,7 +46,7 @@ type EvolutionChainProps = {
   isLoading?: boolean
 }
 
-const StyledPokemonImage = styled(PokemonImage)<{ isCurrent: boolean }>(props => ({
+export const StyledPokemonImage = styled(PokemonImage)<{ isCurrent: boolean }>(props => ({
   width: '3rem',
   opacity: props.isCurrent ? 1 : 0.5,
   maxHeight: '100%',
@@ -54,7 +54,7 @@ const StyledPokemonImage = styled(PokemonImage)<{ isCurrent: boolean }>(props =>
   maxWidth: '100%',
 }))
 
-const StyledSkeleton = styled(Skeleton)({
+export const StyledSkeleton = styled(Skeleton)({
   width: '6rem',
   height: '6rem',
   display: 'inline-flex',
@@ -64,7 +64,7 @@ const StyledSkeleton = styled(Skeleton)({
   verticalAlign: 'bottom',
 })
 
-const EvolutionImageWithInfo = ({ id, isCurrent }: { id: number, name: string, isCurrent: boolean }) => {
+export const EvolutionImageWithInfo = ({ id, isCurrent }: { id: number, name: string, isCurrent: boolean }) => {
   const { pokemon, isLoading, species } = usePokemonAndSpecies({ id })
 
   if (isLoading) {
@@ -105,6 +105,7 @@ const EvolutionChain = ({ evolutionChain, refName, isLoading }: EvolutionChainPr
 
   return (
     <EvolutionChainOuterContainer>
+      <Typography level="h3" component="h2" sx={{ textAlign: 'left', marginBottom: 3 }}>Evolution Chain</Typography>
       <EvolutionChainContainer evolutions={chain.length + 1}>
         {chain.map(pokemon => (
           <EvolutionImageWithInfo

@@ -8,6 +8,8 @@ import styled from "@emotion/styled";
 import { Skeleton } from "@mui/joy";
 import TypeBullet from "../components/TypeBullet";
 import FavoriteButton from "../components/FavoriteButton";
+import { useEvolutionChain, usePokemonAndSpecies } from "../utils/hooks";
+import Varieties from "../components/Varieties";
 
 const StyledSkeleton = styled(Skeleton)({
   width: '2rem',
@@ -27,33 +29,21 @@ const Pokemon = () => {
   const { name } = useParams();
   const isName = isNaN(parseInt(name!));
 
-  const { data: pokemon, isLoading: isLoadingPokemon } = useQuery<PokemonType>({
-    queryKey: ['pokemon', 'item', name],
-    queryFn: async () => isName ? await pokemonClient.getPokemonByName(name!) :
-      await pokemonClient.getPokemonById(parseInt(name!)),
-  })
-
-  const speciesId = pokemon?.species.url.split(/\/pokemon-species\//)[1].replace(/\//g, '')
-
-  const { data: species, isLoading: isLoadingSpecies } = useQuery({
-    queryKey: ['pokemon', 'species', speciesId],
-    queryFn: async () => await pokemonClient.getPokemonSpeciesById(parseInt(speciesId!)),
-    enabled: !!pokemon,
+  const { pokemon, species, isLoadingPokemon, isLoadingSpecies } = usePokemonAndSpecies({
+    ...isName ? { name } : { id: parseInt(name!) },
   })
 
   const chainId = species?.evolution_chain.url.split(/\/evolution-chain\//)[1].replace(/\//g, '')
 
-  const { data: evolutionChain, isLoading: isLoadingEvolutionChain } = useQuery({
-    queryKey: ['pokemon', 'evolution-chain', chainId],
-    queryFn: async () => await evolutionClient.getEvolutionChainById(parseInt(
-      chainId!
-    )),
-    enabled: !!species,
+  const { data: evolutionChain, isLoading: isLoadingEvolutionChain } = useEvolutionChain({
+    ...chainId && { id: parseInt(chainId) }
   })
 
   if (!pokemon) {
     return null
   }
+
+  console.log(species?.varieties)
 
   return (
     <PokemonDetail
@@ -73,6 +63,7 @@ const Pokemon = () => {
         evolutionChain={evolutionChain}
         isLoading={isLoadingSpecies || isLoadingEvolutionChain}
       />
+      <Varieties varieties={species?.varieties} isLoading={isLoadingSpecies} refName={pokemon.name} />
     </PokemonDetail>
   )
 }

@@ -9,17 +9,21 @@
   --text-primary: var(--valhalla);
   --text-secondary: var(--dolphin);
   --placeholder: var(--gull-gray);
-  --input: var(--solitude);
+  --input: var(--valhalla);
+  --input-text: var(--black-squeeze);
   --main-color: var(--black-squeeze);
-  --focus-visible: var(--mulled-wine);
+  --focus-visible: var(--solitude);
   --main-background: var(--solitude);
   --border: var(var(--black-squeeze));
+  --focus-outline-offset: 0;
 
   --Input-placeholderColor: var(--placeholder);
   --Input-color: var(--text-primary);
   --Input-focusedHighlight: var(--focus-visible);
+  --_Input-focusedHighlight: var(--focus-visible);
   --variant-softHoverBg: var(--dolphin);
   --variant-plainColor: var(--text-primary);
+  --joy-palette-focusVisible: var(--focus-visible);
 
   --type-normal: #A8A77A;
   --type-fire: #EE8130;

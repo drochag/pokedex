@@ -1,8 +1,6 @@
 import styled from '@emotion/styled'
 import { Skeleton, Typography } from '@mui/joy'
-import { NamedAPIResource, Pokemon } from 'pokenode-ts'
 import { capitalize, getImageFromSprites } from '../../utils'
-import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { pokemonClient } from '../../api';
 import PokemonImage from '../PokemonImage'
