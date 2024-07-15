@@ -1,5 +1,5 @@
 import { PokemonSpeciesVariety } from "pokenode-ts"
-import { EvolutionChainContainer, EvolutionChainOuterContainer, EvolutionImageWithInfo, StyledSkeleton } from "../EvolutionChain"
+import { DetailTitle, EvolutionChainContainer, EvolutionChainOuterContainer, EvolutionImageWithInfo, StyledSkeleton } from "../EvolutionChain"
 import { Typography } from "@mui/joy"
 
 interface VarietiesProps {
@@ -27,7 +27,7 @@ const Varieties = ({ varieties, refName, isLoading }: VarietiesProps) => {
 
   return (
     <>
-      <Typography level="h3" component="h2" sx={{ textAlign: 'left', marginTop: 3 }}>Varieties</Typography>
+      <DetailTitle level="h3" sx={{ textAlign: 'left', marginTop: 3, maxWidth: '30rem' }}>Varieties</DetailTitle>
       <EvolutionChainOuterContainer>
         <EvolutionChainContainer evolutions={varieties.length + 1}>
           {varieties.map(({ is_default, pokemon }) => (

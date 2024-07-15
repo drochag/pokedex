@@ -88,6 +88,14 @@ export const EvolutionImageWithInfo = ({ id, isCurrent }: { id: number, name: st
   )
 }
 
+export const DetailTitle = styled(Typography)({
+  textAlign: 'left',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: 10,
+  maxWidth: '30rem'
+})
+
 const EvolutionChain = ({ evolutionChain, refName, isLoading }: EvolutionChainProps) => {
   if (isLoading || !evolutionChain) {
     return (
@@ -105,7 +113,7 @@ const EvolutionChain = ({ evolutionChain, refName, isLoading }: EvolutionChainPr
 
   return (
     <>
-      <Typography level="h3" component="h2" sx={{ textAlign: 'left', marginTop: 3 }}>Evolution Chain</Typography>
+      <DetailTitle level="h3">Evolution Chain</DetailTitle>
       <EvolutionChainOuterContainer>
         <EvolutionChainContainer evolutions={chain.length + 1}>
           {chain.map(pokemon => (
