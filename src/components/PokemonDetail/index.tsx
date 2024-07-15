@@ -1,8 +1,8 @@
 import { Pokemon as PokemonType } from "pokenode-ts";
 import { PokemonImageContainer } from "../PokemonImage";
-import { Container, Skeleton, Typography } from "@mui/joy";
+import { Container, Typography } from "@mui/joy";
 import styled from "@emotion/styled";
-import { capitalize, getImageFromSprites } from "../../utils";
+import { capitalize } from "../../utils";
 import { ArrowLeft } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { FC, PropsWithChildren } from "react";
@@ -47,14 +47,6 @@ const StyledLink = styled(Link)({
   '&:hover': {
     backgroundColor: 'var(--solitude)',
   },
-})
-
-const StyledSkeleton = styled(Skeleton)({
-  maxWidth: '20rem',
-  maxHeight: '20rem',
-  zIndex: 1,
-  width: '100%',
-  height: '100%',
 })
 
 const PokemonDetail: FC<PropsWithChildren<PokemonProps>> = ({ pokemon, children, types, favoriteButton }) => {

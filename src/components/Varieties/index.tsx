@@ -29,16 +29,13 @@ const Varieties = ({ varieties, refName, isLoading }: VarietiesProps) => {
     <EvolutionChainOuterContainer>
       <Typography level="h3" component="h2" sx={{ textAlign: 'left', marginBottom: 3 }}>Varieties</Typography>
       <EvolutionChainContainer evolutions={varieties.length + 1}>
-        {varieties.map(({ is_default, pokemon }) => {
-          console.log(refName, pokemon.name, pokemon.name === refName)
-          return (
-            <EvolutionImageWithInfo
-              key={pokemon.name}
-              id={parseInt(pokemon.url.split(/\/pokemon\//)[1].replace(/\//g, ''))}
-              name={pokemon.name}
-              isCurrent={pokemon.name === refName} />
-          )
-        })}
+        {varieties.map(({ is_default, pokemon }) => (
+          <EvolutionImageWithInfo
+            key={pokemon.name}
+            id={parseInt(pokemon.url.split(/\/pokemon\//)[1].replace(/\//g, ''))}
+            name={pokemon.name}
+            isCurrent={pokemon.name === refName} />
+        ))}
       </EvolutionChainContainer>
     </EvolutionChainOuterContainer>
   )

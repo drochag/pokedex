@@ -1,13 +1,12 @@
 import styled from '@emotion/styled'
 import { Skeleton, Typography } from '@mui/joy'
 import { capitalize, getImageFromSprites } from '../../utils'
-import { Link } from 'react-router-dom'
-import { pokemonClient } from '../../api';
+import { Link, LinkProps } from 'react-router-dom'
 import PokemonImage from '../PokemonImage'
 import FavoriteButton from '../FavoriteButton'
 import { usePokemonAndSpecies } from '../../utils/hooks'
 
-const Card = styled(Link)({
+const Card = styled(({ color, ...props }: { color: string } & LinkProps) => <Link {...props} />)(props => ({
   minHeight: '14rem',
   cursor: 'pointer',
   position: 'relative',
@@ -24,9 +23,9 @@ const Card = styled(Link)({
   border: '2px solid var(--main-background)',
   color: 'var(--text-primary)',
   '&:hover': {
-    border: '2px solid var(--gull-gray)',
+    border: `2px solid ${props.color}`,
   },
-})
+}))
 
 const TextContainer = styled.div({
   zIndex: 2,
@@ -58,7 +57,7 @@ const PokemonListItem = ({ id, url }: { id: number, url?: string }) => {
   const idPad = String(pokemon.id).padStart(3, '0')
 
   return (
-    <Card to={`/pokemon/${pokemon.id}`}>
+    <Card to={`/pokemon/${pokemon.id}`} color={bgColor}>
       <PokemonImage color={bgColor} id={pokemon.id} name={name} src={getImageFromSprites(pokemon.sprites)}>
         <FavoriteButton id={pokemon.id} />
       </PokemonImage>

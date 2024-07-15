@@ -17,7 +17,7 @@ const ImageContainer = styled('div')<{ color?: string }>((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  border: '2px solid ${props.color}',
+  border: `2px solid ${props.color}`,
 }))
 
 const BgImage = styled(({ color, src, ...props }: { color: string, src: string }) => <div {...props} />)(

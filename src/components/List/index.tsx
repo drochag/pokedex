@@ -6,7 +6,7 @@ import { useFavoritePokemon, useList } from "../../utils/stores"
 import { useApiList } from "../../utils/hooks"
 
 const List = () => {
-  const { currentPage, pages, setPages, onlyFavorites, setIsRefetching } = useList()
+  const { currentPage, pages, setPages, onlyFavorites } = useList()
   const { favoritePokemon } = useFavoritePokemon()
   const { data, isRefetching } = useApiList({ currentPage, setPages })
 

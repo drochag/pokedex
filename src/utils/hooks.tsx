@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPokemon, getSpecies, getList, getEvolutionChain } from "../api";
 import { Pokemon, PokemonSpecies } from "pokenode-ts";
+import { useEffect } from "react";
 
 type UsePokemonAndSpeciesHook = { id?: number, url?: string, pokemon?: Pokemon, name?: string };
 
@@ -30,7 +31,7 @@ export const usePokemonAndSpecies = ({ id, name, url, pokemon: pokemonProp }: Us
     enabled: !pokemonProp,
   });
 
-  const speciesId = parseInt(pokemon?.species.url.split('pokemon-species\/')[1].replace(/\//g, '')!)
+  const speciesId = parseInt(pokemon?.species.url.split('pokemon-species')[1].replace(/\//g, '')!)
 
   const { data: species, isLoading: isLoadingSpecies, isError: isSpeciesError } = useQuery({
     queryKey: ['species', speciesId],
@@ -50,3 +51,12 @@ export const useEvolutionChain = ({ id }: { id?: number }) => useQuery({
   queryFn: async () => getEvolutionChain(id!),
   enabled: !!id,
 })
+
+export const useDebouncedEffect = (effect: () => void, deps: any[], delay: number) => {
+  useEffect(() => {
+    const handler = setTimeout(() => effect(), delay);
+
+    return () => clearTimeout(handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...(deps || []), delay]);
+}

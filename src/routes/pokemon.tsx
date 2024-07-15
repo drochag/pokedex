@@ -1,20 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { Pokemon as PokemonType } from "pokenode-ts";
 import { useParams } from "react-router-dom";
-import { evolutionClient, pokemonClient } from "../api";
 import PokemonDetail from "../components/PokemonDetail";
 import EvolutionChain from "../components/EvolutionChain";
 import styled from "@emotion/styled";
-import { Skeleton } from "@mui/joy";
 import TypeBullet from "../components/TypeBullet";
 import FavoriteButton from "../components/FavoriteButton";
 import { useEvolutionChain, usePokemonAndSpecies } from "../utils/hooks";
 import Varieties from "../components/Varieties";
-
-const StyledSkeleton = styled(Skeleton)({
-  width: '2rem',
-  height: '0.5rem',
-})
 
 const TypeBulletsContainer = styled.div({
   display: 'flex',
@@ -42,8 +33,6 @@ const Pokemon = () => {
   if (!pokemon) {
     return null
   }
-
-  console.log(species?.varieties)
 
   return (
     <PokemonDetail
