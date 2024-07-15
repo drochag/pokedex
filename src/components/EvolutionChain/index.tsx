@@ -1,20 +1,21 @@
 import styled from "@emotion/styled"
 import { ChainLink, EvolutionChain as EvolutionChainType, NamedAPIResource } from "pokenode-ts"
 import PokemonImage from "../PokemonImage"
-import { getImageFromSprites } from "../../utils"
 import { Link } from "react-router-dom"
 import { Skeleton } from "@mui/joy"
+import { getImageFromSprites } from "../../utils"
+import { usePokemonAndSpecies } from "../../utils/hooks"
 
-const flattenChain = (chain: ChainLink, refName: string): NamedAPIResource[] => {
+const flattenChain = (chain: ChainLink): NamedAPIResource[] => {
   const result = []
 
   result.push(chain.species)
-  chain.evolves_to.forEach(e => result.push(...flattenChain(e, refName)))
+  chain.evolves_to.forEach(e => result.push(...flattenChain(e)))
 
   return result
 }
 
-const EvolutionImageContainer = styled(Link)({
+const EvolutionImageContainer = styled(Link)((props) => ({
   display: 'inline-flex',
   height: '5rem',
   width: '5rem',
@@ -24,7 +25,8 @@ const EvolutionImageContainer = styled(Link)({
   borderRadius: '1rem',
   padding: '0.5rem',
   justifyContent: 'center',
-})
+  border: `2px solid rgb(from ${props.color} r g b / 30%)`,
+}))
 
 const EvolutionChainContainer = styled.div<{ evolutions: number }>(props => ({
   width: `${props.evolutions * 6.5}rem`,
@@ -62,6 +64,30 @@ const StyledSkeleton = styled(Skeleton)({
   verticalAlign: 'bottom',
 })
 
+const EvolutionImageWithInfo = ({ id, isCurrent }: { id: number, name: string, isCurrent: boolean }) => {
+  const { pokemon, isLoading, species } = usePokemonAndSpecies({ id })
+
+  if (isLoading) {
+    return (
+      <EvolutionImageContainer to={`/pokemon/${id}`}>
+        <StyledSkeleton variant="rectangular" animation="wave" width="4rem" height="4rem" />
+      </EvolutionImageContainer>
+    )
+  }
+
+  const src = getImageFromSprites(pokemon!.sprites)
+  const color = species!.color.name
+  return (
+    <EvolutionImageContainer to={`/pokemon/${id}`} color={color}>
+      {isLoading ? (
+        <StyledSkeleton variant="rectangular" animation="wave" width="4rem" height="4rem" />
+      ) : (
+        <StyledPokemonImage name={pokemon!.name} isCurrent={isCurrent} size="small" id={pokemon!.id} src={src} color={color} />
+      )}
+    </EvolutionImageContainer>
+  )
+}
+
 const EvolutionChain = ({ evolutionChain, refName, isLoading }: EvolutionChainProps) => {
   if (isLoading || !evolutionChain) {
     return (
@@ -75,15 +101,17 @@ const EvolutionChain = ({ evolutionChain, refName, isLoading }: EvolutionChainPr
     )
   }
 
-  const chain = flattenChain(evolutionChain.chain, refName)
+  const chain = flattenChain(evolutionChain.chain)
 
   return (
     <EvolutionChainOuterContainer>
       <EvolutionChainContainer evolutions={chain.length + 1}>
         {chain.map(pokemon => (
-          <EvolutionImageContainer key={pokemon.name} to={`/pokemon/${pokemon.name}`}>
-            <StyledPokemonImage isCurrent={pokemon.name === refName} size="small" name={pokemon.name} />
-          </EvolutionImageContainer>
+          <EvolutionImageWithInfo
+            key={pokemon.name}
+            id={parseInt(pokemon.url.split(/\/pokemon-species\//)[1].replace(/\//g, ''))}
+            name={pokemon.name}
+            isCurrent={pokemon.name === refName} />
         ))}
       </EvolutionChainContainer>
     </EvolutionChainOuterContainer>

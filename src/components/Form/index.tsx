@@ -1,6 +1,14 @@
-import { Star } from "@phosphor-icons/react"
+import { Star, IconProps } from "@phosphor-icons/react"
 import { StyledForm, InputContainer, StyledButton, StyledInput } from "./styled"
 import { useList } from "../../utils/stores"
+import styled from "@emotion/styled"
+
+const StyledStar = styled(({ onlyFavorites, ...props }: IconProps & { onlyFavorites?: boolean }) => <Star {...props} />)(({ onlyFavorites }) => ({
+  marginLeft: 20,
+  fill: onlyFavorites ? 'gold' : 'transparent',
+  stroke: onlyFavorites ? 'gold' : 'var(--solitude)',
+  strokeWidth: 2,
+}))
 
 const Form = () => {
   const { onlyFavorites, setOnlyFavorites } = useList()
@@ -11,7 +19,7 @@ const Form = () => {
       </InputContainer>
       <StyledButton variant="soft" onClick={() => setOnlyFavorites && setOnlyFavorites(!onlyFavorites)}>
         Show Favorite Pokemons
-        <Star weight="fill" size={32} style={{ marginLeft: 20, fill: onlyFavorites ? 'gold' : '' }} />
+        <StyledStar weight="fill" size={32} onlyFavorites={onlyFavorites} />
       </StyledButton>
     </StyledForm>
   )

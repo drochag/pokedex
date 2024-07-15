@@ -13,16 +13,16 @@ const StyledIconButton = styled(IconButton)({
   },
 })
 
-const FavoriteButton = ({ name }: { name: string }) => {
+const FavoriteButton = ({ id }: { id: number }) => {
   const favoritePokemon = useFavoritePokemon(state => state.favoritePokemon)
   const toggleFavorite = useFavoritePokemon(state => state.toggleFavorite)
 
-  const isFavorite = favoritePokemon.includes(name)
+  const isFavorite = favoritePokemon.includes(id)
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
-    toggleFavorite(name)
+    toggleFavorite(id)
   }
 
   return (

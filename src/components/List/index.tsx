@@ -1,29 +1,39 @@
 import { useQuery } from "@tanstack/react-query"
-import { Grid } from "@mui/joy"
+import { Grid, Typography } from "@mui/joy"
 import PokemonListItem from "../PokemonListItem"
 import { pokemonClient } from "../../api"
 import { NamedAPIResource } from "pokenode-ts"
+import Pagination from '../Pagination'
 import { useFavoritePokemon, useList } from "../../utils/stores"
 
 const List = () => {
-  const { currentPage, setCurrentPage, setPages, onlyFavorites } = useList()
+  const { currentPage, pages, setPages, onlyFavorites, setIsRefetching } = useList()
   const { favoritePokemon } = useFavoritePokemon()
-  const { data } = useQuery({
+  const { data, isRefetching } = useQuery({
     queryKey: ['pokemon', 'list', currentPage],
     queryFn: async () => {
-      const response = await pokemonClient.listPokemons(Math.max((currentPage - 1) * 20, 0))
-      setPages!(response.count)
+      const response = await pokemonClient.listPokemons((currentPage - 1) * 20, 20)
+      setPages(Math.ceil(response.count / 20))
       return response
     },
   })
 
   return <Grid container spacing={2} my={2}>
-    {!onlyFavorites && data?.results.map((pokemon: NamedAPIResource) => (
-      <Grid xs={6} md={4} lg={3} key={pokemon.name}><PokemonListItem pokemon={pokemon} /></Grid>
-    ))}
+    <Grid xs={12}>
+      <Typography level="h4">
+        {currentPage} / {pages}
+      </Typography>
+    </Grid>
+    <Pagination isRefetching={isRefetching} />
+    {!onlyFavorites && data?.results.map(({ url }: NamedAPIResource) => {
+      const pokemonId = parseInt(url.split(/\/pokemon\//)[1].replace(/\//g, ''))
+      return (
+        <Grid xs={6} md={4} lg={3} key={pokemonId}><PokemonListItem url={url} id={pokemonId} /></Grid>
+      )
+    })}
     {onlyFavorites && !favoritePokemon.length && <p>There are no favorite Pokémon</p>}
-    {onlyFavorites && favoritePokemon.map((pokemon: string) => (
-      <Grid xs={6} md={4} lg={3} key={pokemon}><PokemonListItem pokemon={{ name: pokemon }} /></Grid>
+    {onlyFavorites && favoritePokemon.map((id: number) => (
+      <Grid xs={6} md={4} lg={3} key={id}><PokemonListItem id={id} /></Grid>
     ))}
   </Grid>
 }

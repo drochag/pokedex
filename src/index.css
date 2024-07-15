@@ -19,6 +19,7 @@
   --Input-color: var(--text-primary);
   --Input-focusedHighlight: var(--focus-visible);
   --variant-softHoverBg: var(--dolphin);
+  --variant-plainColor: var(--text-primary);
 
   --type-normal: #A8A77A;
   --type-fire: #EE8130;
@@ -38,6 +39,17 @@
   --type-dragon: #6F35FC;
   --type-steel: #B7B7CE;
   --type-fairy: #D685AD;
+
+  --pokemon-color-black: #333333;
+  --pokemon-color-blue: #3b85ca;
+  --pokemon-color-brown: #97693e;
+  --pokemon-color-gray: #A0A0A0;
+  --pokemon-color-green: #5dac50;
+  --pokemon-color-pink: #f587e5;
+  --pokemon-color-purple: #a47cbd;
+  --pokemon-color-red: #d9585a;
+  --pokemon-color-white: #E0E0E0;
+  --pokemon-color-yellow: #E8D949;
 }
 
 body {

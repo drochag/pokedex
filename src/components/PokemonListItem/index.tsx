@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Typography } from '@mui/joy'
+import { Skeleton, Typography } from '@mui/joy'
 import { NamedAPIResource, Pokemon } from 'pokenode-ts'
 import { capitalize, getImageFromSprites } from '../../utils'
 import { useQuery } from '@tanstack/react-query'
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { pokemonClient } from '../../api';
 import PokemonImage from '../PokemonImage'
 import FavoriteButton from '../FavoriteButton'
+import { usePokemonAndSpecies } from '../../utils/hooks'
 
 const Card = styled(Link)({
   minHeight: '14rem',
@@ -33,23 +34,35 @@ const TextContainer = styled.div({
   zIndex: 2,
 })
 
-const PokemonListItem = ({ pokemon }: { pokemon: NamedAPIResource | { name: string } }) => {
-  const { data } = useQuery<Pokemon>({
-    queryKey: ['pokemon', 'item', pokemon.name],
-    queryFn: async () => await pokemonClient.getPokemonByName(pokemon.name)
-  })
+const PokemonListItem = ({ id, url }: { id: number, url?: string }) => {
+  if (!id && !url) {
+    throw new Error('id or url is required')
+  }
 
-  if (!data) {
+  const { isLoading, pokemon, species } = usePokemonAndSpecies({ id, url })
+
+  if (isLoading) {
+    return (
+      <Skeleton variant="rectangular" height="14rem" />
+    )
+  }
+
+  if (!pokemon || !species) {
     return null
   }
 
-  const name = capitalize(data.name)
-  const idPad = String(data.id).padStart(3, '0')
+  let bgColor = 'var(--solitude)'
+  if (species) {
+    bgColor = `var(--pokemon-color-${species.color.name})`
+  }
+
+  const name = capitalize(pokemon.name || '')
+  const idPad = String(pokemon.id).padStart(3, '0')
 
   return (
-    <Card to={`/pokemon/${data.name}`}>
-      <PokemonImage name={name} src={getImageFromSprites(data.sprites)}>
-        <FavoriteButton name={data.name} />
+    <Card to={`/pokemon/${pokemon.id}`}>
+      <PokemonImage color={bgColor} id={pokemon.id} name={name} src={getImageFromSprites(pokemon.sprites)}>
+        <FavoriteButton id={pokemon.id} />
       </PokemonImage>
       <TextContainer>
         <Typography level="title-lg">{name}</Typography>

@@ -1,5 +1,5 @@
 import { Pokemon as PokemonType } from "pokenode-ts";
-import PokemonImage from "../PokemonImage";
+import { PokemonImageContainer } from "../PokemonImage";
 import { Container, Skeleton, Typography } from "@mui/joy";
 import styled from "@emotion/styled";
 import { capitalize, getImageFromSprites } from "../../utils";
@@ -57,7 +57,7 @@ const StyledSkeleton = styled(Skeleton)({
   height: '100%',
 })
 
-const PokemonDetail: FC<PropsWithChildren<PokemonProps>> = ({ pokemon, isLoading, children, types, favoriteButton }) => {
+const PokemonDetail: FC<PropsWithChildren<PokemonProps>> = ({ pokemon, children, types, favoriteButton }) => {
   return (
     <Container maxWidth="xl" sx={{ textAlign: 'center', pt: 5 }}>
       <Name>
@@ -67,8 +67,7 @@ const PokemonDetail: FC<PropsWithChildren<PokemonProps>> = ({ pokemon, isLoading
       <Typography level="h4" color="neutral" mb={2} mt={0}>{String(pokemon.id).padStart(3, '0')}</Typography>
       <ImageContainer>
         {favoriteButton}
-        {!isLoading && <PokemonImage size="large" src={getImageFromSprites(pokemon.sprites)} name={pokemon.name} />}
-        {isLoading && <StyledSkeleton variant="rectangular" animation="wave" width="3rem" height="3rem" />}
+        <PokemonImageContainer id={pokemon.id} />
         {types}
       </ImageContainer>
       {children}

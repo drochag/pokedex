@@ -1,5 +1,4 @@
 import { PokemonSprites } from "pokenode-ts";
-import { useEffect, useState } from "react";
 
 export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 

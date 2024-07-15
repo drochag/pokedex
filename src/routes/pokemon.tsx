@@ -31,14 +31,14 @@ const Pokemon = () => {
     queryKey: ['pokemon', 'item', name],
     queryFn: async () => isName ? await pokemonClient.getPokemonByName(name!) :
       await pokemonClient.getPokemonById(parseInt(name!)),
-    enabled: !!name,
   })
 
+  const speciesId = pokemon?.species.url.split(/\/pokemon-species\//)[1].replace(/\//g, '')
+
   const { data: species, isLoading: isLoadingSpecies } = useQuery({
-    queryKey: ['pokemon', 'evolution-chain', name],
-    queryFn: async () => isName ? await pokemonClient.getPokemonSpeciesByName(name!) :
-      await pokemonClient.getPokemonSpeciesById(parseInt(name!)),
-    enabled: isName ? !!name : !!pokemon?.id,
+    queryKey: ['pokemon', 'species', speciesId],
+    queryFn: async () => await pokemonClient.getPokemonSpeciesById(parseInt(speciesId!)),
+    enabled: !!pokemon,
   })
 
   const chainId = species?.evolution_chain.url.split(/\/evolution-chain\//)[1].replace(/\//g, '')
@@ -48,33 +48,23 @@ const Pokemon = () => {
     queryFn: async () => await evolutionClient.getEvolutionChainById(parseInt(
       chainId!
     )),
-    enabled: !!chainId,
-  })
-
-  const { data: form, isLoading: isLoadingForm } = useQuery({
-    queryKey: ['pokemon', 'form', name],
-    queryFn: async () => isName ? await pokemonClient.getPokemonFormByName(name!) :
-      await pokemonClient.getPokemonFormById(parseInt(name!)),
-    enabled: isName ? !!name : !!pokemon?.id,
+    enabled: !!species,
   })
 
   if (!pokemon) {
     return null
   }
 
-
   return (
     <PokemonDetail
       pokemon={pokemon}
       isLoading={isLoadingPokemon}
       favoriteButton={(
-        <FavoriteButton name={pokemon.name} />
+        <FavoriteButton id={pokemon.id} />
       )}
       types={(
         <TypeBulletsContainer>
-          {isLoadingForm ? <StyledSkeleton variant="text" /> : (
-            form?.types.map(({ type }) => <TypeBullet key={type.name} type={type.name} />)
-          )}
+          {pokemon.types.map(({ type }) => <TypeBullet key={type.name} type={type.name} />)}
         </TypeBulletsContainer>
       )}
     >
