@@ -47,7 +47,7 @@ const Form = () => {
       </Modal>
 
       <InputContainer>
-        <StyledInput variant="soft" placeholder="Name or Number" value={value} onChange={(e) => setValue(e.target.value)} />
+        <StyledInput variant="soft" placeholder="Name or Number" value={value} onChange={(e) => setValue(e.target.value.toLocaleLowerCase())} />
       </InputContainer>
       <StyledButton variant="soft" onClick={() => setOnlyFavorites && setOnlyFavorites(!onlyFavorites)}>
         Show Favorite Pokemons

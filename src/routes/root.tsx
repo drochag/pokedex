@@ -11,7 +11,7 @@ function Root() {
         <Grid container spacing={2}>
           <Grid xs={12}>
             <h1>Pokédex</h1>
-            <p>Search for Pokémon by name or using the National Pokédex number.</p>
+            <p>Search for Pokémon by name or using the National Pokédex number. Write up and wait for the result.</p>
             <Form />
           </Grid>
           <Grid xs={12}>
