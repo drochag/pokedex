@@ -1,20 +1,10 @@
-import { Star, IconProps } from "@phosphor-icons/react"
-import { StyledForm, InputContainer, StyledButton, StyledInput } from "./styled"
+import { StyledForm, InputContainer, StyledButton, StyledInput, StyledStar } from "./styled"
 import { useList } from "../../utils/stores"
-import styled from "@emotion/styled"
-import { useState } from "react"
-import { useDebouncedEffect } from "../../utils/hooks"
+import { FormEvent, useCallback, useState } from "react"
 import { getPokemon } from "../../api"
-import { Modal, ModalClose, ModalDialog, Typography } from "@mui/joy"
+import { Button, Modal, ModalClose, ModalDialog, Typography } from "@mui/joy"
 import { useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
-
-const StyledStar = styled(({ onlyFavorites, ...props }: IconProps & { onlyFavorites?: boolean }) => <Star {...props} />)(({ onlyFavorites }) => ({
-  marginLeft: 20,
-  fill: onlyFavorites ? 'gold' : 'transparent',
-  stroke: onlyFavorites ? 'gold' : 'var(--solitude)',
-  strokeWidth: 2,
-}))
 
 const Form = () => {
   const { onlyFavorites, setOnlyFavorites } = useList()
@@ -23,7 +13,8 @@ const Form = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
-  useDebouncedEffect(async () => {
+  const search = useCallback(async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!value) return
     try {
       const result = await getPokemon({ name: value, id: value as unknown as number })
@@ -33,11 +24,10 @@ const Form = () => {
       console.error(e)
       setHasError(true)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value], 2000)
+  }, [value])
 
   return (
-    <StyledForm>
+    <StyledForm onSubmit={search}>
       <Modal open={hasError} onClose={() => setHasError(false)}>
         <ModalDialog>
           <ModalClose />
@@ -45,9 +35,9 @@ const Form = () => {
           <span>There's no Pokémon named <b style={{ display: 'inline' }}>{value}</b> or with the number <b style={{ display: 'inline' }}>{value}</b>. Try again with another name or number.</span>
         </ModalDialog>
       </Modal>
-
       <InputContainer>
         <StyledInput variant="soft" placeholder="Name or Number" value={value} onChange={(e) => setValue(e.target.value.toLocaleLowerCase())} />
+        <Button variant="solid" color="neutral" type="submit">Search</Button>
       </InputContainer>
       <StyledButton variant="soft" onClick={() => setOnlyFavorites && setOnlyFavorites(!onlyFavorites)}>
         Show Favorite Pokemons

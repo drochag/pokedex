@@ -1,6 +1,8 @@
 import { ComponentProps, createElement } from "react"
 import { CaretLeft, CaretRight, DotsThree, CaretDoubleLeft, CaretDoubleRight, Icon, IconProps } from "@phosphor-icons/react"
 
+import { Theme } from "@mui/system";
+
 import { Button, ButtonProps } from "@mui/joy"
 import styled from "@emotion/styled"
 
@@ -18,6 +20,7 @@ const PaginationContent = styled('ul')({
   gap: '0.25rem',
   justifyContent: 'center',
   listStyle: 'none',
+  padding: 0
 })
 
 const PaginationItem = (props: ComponentProps<'li'>) => <li {...props} />
@@ -47,6 +50,12 @@ const PaginationButton = styled(({ paddingSide, isActive, disabled, size, as, ch
     },
   }))
 
+const PaginationButtonLabel = styled('span')(({ theme }: { theme?: Theme }) => ({
+  [theme?.breakpoints.down('md') || '']: {
+    display: 'none',
+  },
+}))
+
 const PaginationIcon = styled(
   ({ IconComponent, ...props }: { IconComponent: Icon } & IconProps) =>
     <IconComponent {...props} />
@@ -67,7 +76,7 @@ const PaginationPrevious = ({
     {...props}
   >
     <PaginationIcon IconComponent={CaretLeft} />
-    <span>Previous</span>
+    <PaginationButtonLabel>Previous</PaginationButtonLabel>
   </PaginationButton>
 )
 
@@ -81,7 +90,7 @@ const PaginationNext = ({
     paddingSide="right"
     {...props}
   >
-    <span>Next</span>
+    <PaginationButtonLabel>Next</PaginationButtonLabel>
     <PaginationIcon IconComponent={CaretRight} />
   </PaginationButton>
 )
@@ -98,7 +107,7 @@ const PaginationFirst = ({
     {...props}
   >
     <PaginationIcon IconComponent={CaretDoubleLeft} />
-    <span>First</span>
+    <PaginationButtonLabel>First</PaginationButtonLabel>
   </PaginationButton>
 )
 
@@ -113,7 +122,7 @@ const PaginationLast = ({
     title="Go to last page"
     {...props}
   >
-    <span>Last</span>
+    <PaginationButtonLabel>Last</PaginationButtonLabel>
     <PaginationIcon IconComponent={CaretDoubleRight} />
   </PaginationButton>
 )
@@ -129,7 +138,6 @@ const SrOnly = styled('span')({
   whiteSpace: 'nowrap',
   border: 0,
 })
-
 
 const Ellipsis = ({
   className,

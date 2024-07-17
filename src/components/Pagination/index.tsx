@@ -11,8 +11,14 @@ import {
 } from "../../ui/pagination"
 import { useShallow } from 'zustand/react/shallow'
 import { useList } from "../../utils/stores"
+import { useTheme } from "@mui/joy";
+import { useMediaQuery } from "usehooks-ts";
 
 const Pagination = ({ isRefetching }: { isRefetching: boolean }) => {
+  const theme = useTheme();
+  console.log(theme.breakpoints.up('md'))
+  const matches = useMediaQuery(theme.breakpoints.up('md').replace('@media ', ''))
+  console.log(matches)
   const { currentPage, setCurrentPage, pages } = useList(
     useShallow(
       ({ currentPage, setCurrentPage, pages, isRefetching }) =>
@@ -41,13 +47,13 @@ const Pagination = ({ isRefetching }: { isRefetching: boolean }) => {
           />
         </PaginationItem>
 
-        {currentPage > 3 && (
+        {currentPage > (matches ? 3 : 1) && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
         )}
 
-        {Array.from({ length: Math.min(pages, currentPage - 1, 3) }, (_, i) => (
+        {Array.from({ length: Math.min(pages, currentPage - 1, matches ? 3 : 1) }, (_, i) => (
           <PaginationItem key={i}>
             <PaginationButton disabled={isRefetching} onClick={() => setCurrentPage(currentPage - i - 1)}>
               {currentPage - i - 1}
@@ -59,7 +65,7 @@ const Pagination = ({ isRefetching }: { isRefetching: boolean }) => {
           <PaginationButton isActive aria-disabled disabled>{currentPage}</PaginationButton>
         </PaginationItem>
 
-        {Array.from({ length: Math.min(pages, nextItems, 3) }, (_, i) => (
+        {Array.from({ length: Math.min(pages, nextItems, matches ? 3 : 1) }, (_, i) => (
           <PaginationItem key={i + currentPage}>
             <PaginationButton disabled={isRefetching} onClick={() => setCurrentPage(i + 1 + currentPage)}>
               {i + 1 + currentPage}
@@ -67,7 +73,7 @@ const Pagination = ({ isRefetching }: { isRefetching: boolean }) => {
           </PaginationItem>
         ))}
 
-        {nextItems > 3 && (
+        {nextItems > (matches ? 3 : 1) && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
